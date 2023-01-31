@@ -1,2 +1,3 @@
-# machine_a_snack
- 
+# Machine à Snack
+
+Ce projet implémente distributeur virtuel automatique de snack
