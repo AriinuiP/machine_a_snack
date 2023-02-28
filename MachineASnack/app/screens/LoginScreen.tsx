@@ -20,7 +20,7 @@ function LoginScreen(props : LoginScreenProps) {
               <Pressable style={styles.button} onPress={home} >
                 <Text style={styles.textButton}> LOGIN </Text>
               </Pressable>
-              <Text style={styles.guest}> Continue as a guest </Text>
+              <Text style={styles.guest}>CONTINUE AS A GUEST </Text>
           <StatusBar/>
       </SafeAreaView>
     );
@@ -53,12 +53,12 @@ const styles = StyleSheet.create({
     },
 
       inputButton: {
-        margin: 8,
+        margin: 15,
         fontSize: 12,
-        padding: 10,
+        padding: 15,
         width: "80%",
         height: "7%",
-        backgroundColor: colors.secondary,
+        backgroundColor: "white",
         borderWidth: 1,
         borderRadius: 40,
         borderColor:"white",        
@@ -70,14 +70,21 @@ const styles = StyleSheet.create({
     },
 
     title: {
-      top: 100,
+      top: 50,
       position: "absolute",
-      fontSize: 15,
-      fontWeight:"700",
+      fontSize: 70,
+      fontFamily : 'Avenir-Heavy',
       marginTop: 20,
       marginBottom: 30,
       color:colors.text_color,
       textDecorationLine: "underline",
+      shadowColor: "black",
+        shadowOpacity: 1,
+        shadowRadius: 4,
+        shadowOffset: {
+        height: 5,
+        width: 0
+      }
     },
 
     guest: {
@@ -94,11 +101,11 @@ const styles = StyleSheet.create({
       backgroundColor: "white",
       borderRadius: 10,
       alignItems: "center",
-      shadowColor: "#9e5308",
-      shadowOpacity: 0.7,
+      shadowColor: "black",
+      shadowOpacity: 0.8,
       shadowRadius: 2,
       shadowOffset: {
-        height: 2,
+        height: 4,
         width: 0
       }
     },
