@@ -11,15 +11,6 @@ const PaymentScreen = (props: PaymentScreenProps) => {
 
   const product = () => props.navigation.navigate("Product");
 
-  Alert.alert(
-    'Clean Up',
-    'Clean Up has been done !',
-    [
-      { text: 'OK', onPress: () => console.log('OK') },
-    ]
-  );
-
-
     return (
         <SafeAreaView style={styles.container}>
             <Pressable style={styles.press} onPress={product}>
@@ -42,8 +33,6 @@ const PaymentScreen = (props: PaymentScreenProps) => {
               <Text style={styles.textButton}> PAY WITH ACCOUNT CREDITS </Text>
             </Pressable>
           </View>
-
-
 
         </SafeAreaView>
     )

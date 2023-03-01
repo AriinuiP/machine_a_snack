@@ -77,7 +77,7 @@ interface ProductScreenProps {
 
     return (
         <View>
-            <TouchableOpacity style={styles.product} onPress={payment} onLongPress={handleLongPress}>
+            <TouchableOpacity style={styles.product} onPress={payment} delayLongPress={1000} onLongPress={handleLongPress}>
                 <Image source={uri} resizeMode='cover'/>
             </TouchableOpacity>
             <Text style={styles.productText}> {title}</Text>

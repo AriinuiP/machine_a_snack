@@ -12,6 +12,7 @@ function SettingsScreen(props : SettingsScreenProps) {
 
     const product = () => props.navigation.navigate("Product");
     const admin = () => props.navigation.navigate("Admin");
+    const account = () => props.navigation.navigate("Account");
 
     return (
         <SafeAreaView style={styles.container}>
@@ -22,7 +23,7 @@ function SettingsScreen(props : SettingsScreenProps) {
                 />
             </Pressable> 
             <View style={{flex: 1, alignItems:'center', marginTop:'20%', width:"100%"}} >
-            <Pressable style={styles.button} onPress={product} >
+            <Pressable style={styles.button} onPress={account} >
               <Text style={styles.textButton}> ACCOUNT DETAILS </Text>
             </Pressable>
             <Pressable style={styles.button} onPress={admin} >
