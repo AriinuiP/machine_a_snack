@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, FlatList, View, Text, TouchableOpacity, Image, Pressable } from 'react-native';
+import { StyleSheet, SafeAreaView, FlatList, View, Text, TouchableOpacity, Image, Pressable, Alert } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 
 import colors from '../config/colors';
@@ -63,9 +63,21 @@ interface ProductScreenProps {
   type ItemProps = { title: string, uri: string, payment: () => void};
   
   const Item = ({title, uri, payment}: ItemProps) => {
+  
+    const handleLongPress = () => {
+        Alert.alert(
+          'STEAL',
+          'Do you want to steal this product ?',
+          [
+            { text: 'No', onPress: () => console.log('No') },
+            { text: 'Yes', onPress: () => console.log('Yes') },
+          ]
+        );
+      }
+
     return (
         <View>
-            <TouchableOpacity style={styles.product} onPress={payment}>
+            <TouchableOpacity style={styles.product} onPress={payment} onLongPress={handleLongPress}>
                 <Image source={uri} resizeMode='cover'/>
             </TouchableOpacity>
             <Text style={styles.productText}> {title}</Text>
@@ -78,19 +90,27 @@ function ProductScreen(props : ProductScreenProps) {
 
     const login = () => props.navigation.navigate("Login");
     const payment = () => props.navigation.navigate("Payment");
+    const settings = () => props.navigation.navigate("Settings");
+
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Text style={ styles.available }>
-                    Products Available
-                </Text> 
-                <SearchBar
-                    placeholder="Search Here..." 
-                    darkTheme
-                    round
-                    autoCorrect={false}
+            <Pressable style={styles.press} onPress={settings}>
+            <Image style={styles.image}
+                    source={require('../../app/assets/icons/settings_3.png')} 
+                    resizeMode='cover'
                 />
+            </Pressable>
+            <Text style={ styles.available }>
+                Products Available
+            </Text> 
+            <SearchBar
+                placeholder="Search Here..." 
+                darkTheme
+                    round
+                autoCorrect={false}
+            />
             </View>
             <FlatList style={{flex:1, width: '100%'} } 
                 contentContainerStyle={{ alignItems: 'center' }}
@@ -102,6 +122,7 @@ function ProductScreen(props : ProductScreenProps) {
                 
             />
             <View style={styles.footer}>
+
                 <Pressable onPress={login}>
                     <Text style={styles.pressable}> LOG OUT </Text>
                 </Pressable>
@@ -167,6 +188,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         backgroundColor: colors.ternary,
+        alignContent: 'center',
     },
 
     pressable: {
@@ -178,5 +200,18 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         alignSelf: 'stretch',
         backgroundColor: colors.secondary,
-    }
+    },
+
+    image:{
+        width: 30,
+        height: 30,
+      },
+
+      press: {
+        position: 'absolute',
+        top: '2%',
+        right: '2%',
+        zIndex: 1,
+        flex: 0,
+      },
 });

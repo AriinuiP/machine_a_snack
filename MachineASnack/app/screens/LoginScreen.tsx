@@ -11,6 +11,7 @@ interface LoginScreenProps {
 function LoginScreen(props : LoginScreenProps) {
 
   const home = () => props.navigation.navigate("Product");
+  const register = () => props.navigation.navigate("Register");
 
   return (
       <SafeAreaView style={styles.container}>
@@ -20,7 +21,11 @@ function LoginScreen(props : LoginScreenProps) {
               <Pressable style={styles.button} onPress={home} >
                 <Text style={styles.textButton}> LOGIN </Text>
               </Pressable>
-              <Text style={styles.guest}>CONTINUE AS A GUEST </Text>
+              <Pressable style={styles.register} onPress={register} >
+                <Text style={styles.textRegister}> REGISTER </Text>
+              </Pressable>
+              <Text onPress={home} style={styles.guest}> CONTINUE AS A GUEST </Text>
+              
           <StatusBar/>
       </SafeAreaView>
     );
@@ -95,7 +100,7 @@ const styles = StyleSheet.create({
     },
 
     button: {
-      margin: 20,
+      margin: 10,
       padding:10,
       width: "50%",
       backgroundColor: "white",
@@ -114,6 +119,27 @@ const styles = StyleSheet.create({
       fontWeight:"bold",
       fontSize: 17,
       color:colors.primary,
-    }
+    },
+
+    register: {
+      margin: 15,
+      padding:10,
+      width: "50%",
+      backgroundColor: colors.ternary,
+      borderRadius: 10,
+      alignItems: "center",
+      shadowColor: "black",
+      shadowOpacity: 0.8,
+      shadowRadius: 2,
+      shadowOffset: {
+        height: 4,
+        width: 0
+      }
+    },
+    textRegister: {
+      fontWeight:"bold",
+      fontSize: 17,
+      color:colors.text_color,
+    },
 
   });

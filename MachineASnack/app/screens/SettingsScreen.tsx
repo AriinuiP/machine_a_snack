@@ -1,24 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Pressable, Image, Alert } from 'react-native';
+import { StyleSheet, SafeAreaView, FlatList, View, Text, TouchableOpacity, Image, Pressable } from 'react-native';
 
 import colors from '../config/colors';
 
-interface PaymentScreenProps {
+interface SettingsScreenProps {
     navigation:any;
   }
+  
 
-const PaymentScreen = (props: PaymentScreenProps) => {
+function SettingsScreen(props : SettingsScreenProps) {
 
-  const product = () => props.navigation.navigate("Product");
-
-  Alert.alert(
-    'Clean Up',
-    'Clean Up has been done !',
-    [
-      { text: 'OK', onPress: () => console.log('OK') },
-    ]
-  );
-
+    const product = () => props.navigation.navigate("Product");
+    const admin = () => props.navigation.navigate("Admin");
 
     return (
         <SafeAreaView style={styles.container}>
@@ -28,28 +21,19 @@ const PaymentScreen = (props: PaymentScreenProps) => {
                     resizeMode='cover'
                 />
             </Pressable> 
-          <View style={{flex: 1, alignItems:'center', marginTop:'20%', width:"100%"}}>
-            <Text style={ styles.h1}> Payment </Text>
-            <Text style={ styles.h3}> Choose a payment method</Text>
-            <Text style={ styles.h3}> Item price : --- $</Text>
-            <Text style={ styles.h3}> Your balance : -- --- $</Text>
-          </View>
-          <View style={{flex: 4, alignItems:'center', marginTop:'20%', width:"100%"}} >
+            <View style={{flex: 1, alignItems:'center', marginTop:'20%', width:"100%"}} >
             <Pressable style={styles.button} onPress={product} >
-              <Text style={styles.textButton}> CONTACTLESS PAYMENT </Text>
+              <Text style={styles.textButton}> ACCOUNT DETAILS </Text>
             </Pressable>
-            <Pressable style={styles.button} onPress={product} >
-              <Text style={styles.textButton}> PAY WITH ACCOUNT CREDITS </Text>
+            <Pressable style={styles.button} onPress={admin} >
+              <Text style={styles.textButton}> ADMIN AND MAINTENANCE OPTIONS </Text>
             </Pressable>
           </View>
-
-
-
         </SafeAreaView>
-    )
-  }
+    );
+}
 
-export default PaymentScreen;
+export default SettingsScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -57,19 +41,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.primary,
         alignItems: 'center',
         justifyContent: 'center',
-      },
-
-      h1: {
-        fontSize: 60,
-        fontFamily : 'Avenir-Heavy',
-        color: colors.text_color,
-      },
-
-      h3: {
-        fontSize: 15,
-        fontFamily : 'Avenir-Heavy',
-
-        color: colors.text_color,
       },
 
       image:{
@@ -85,7 +56,7 @@ const styles = StyleSheet.create({
         zIndex: 1,
         flex: 0,
       },
-
+      
       button: {
         margin: 15,
         padding:10,
@@ -109,12 +80,9 @@ const styles = StyleSheet.create({
         textAlign:'center',
       },
 
-      backButton: {
-        alignSelf : 'flex-start',
-        flex: 0,
-
+      h1: {
+        fontSize: 30,
+        fontFamily : 'Avenir-Heavy',
+        color: colors.text_color,
       },
-
-      
 })
-
