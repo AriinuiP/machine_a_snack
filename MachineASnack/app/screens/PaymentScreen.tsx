@@ -1,15 +1,44 @@
 import React from 'react';
+import mongoose from 'mongoose';
+import axios from 'axios';
 import { StyleSheet, Text, View, SafeAreaView, Pressable, Image, Alert } from 'react-native';
 
 import colors from '../config/colors';
 
 interface PaymentScreenProps {
     navigation:any;
+    route: {
+      params: {
+          _id: number,
+          name: string,
+          prix: number,
+          uri: string,
+          quantite: number,
+      }
+    }
   }
 
-const PaymentScreen = (props: PaymentScreenProps) => {
+const PaymentScreen = ( {route, navigation}: PaymentScreenProps) => {
 
-  const product = () => props.navigation.navigate("Product");
+const product = () => navigation.navigate("Product");
+
+const buyProduct = async () => {
+  const urlGet = `http://192.168.178.31:3000/produits/${route.params._id}`;
+
+  try {
+    const response = await axios.get(urlGet);
+    console.log('Updated product:', response.data);
+    const item = response.data;
+
+    const urlPut = `http://192.168.178.31:3000/produits/${route.params._id}`;
+  
+    const putResponse = await axios.put(urlPut, item);
+    console.log('Updated product:', putResponse.data);
+    product();
+  } catch (error) {
+    console.error('Error updating product:', error.message);
+  }
+}
 
     return (
         <SafeAreaView style={styles.container}>
@@ -22,11 +51,12 @@ const PaymentScreen = (props: PaymentScreenProps) => {
           <View style={{flex: 1, alignItems:'center', marginTop:'20%', width:"100%"}}>
             <Text style={ styles.h1}> Payment </Text>
             <Text style={ styles.h3}> Choose a payment method</Text>
-            <Text style={ styles.h3}> Item price : --- $</Text>
-            <Text style={ styles.h3}> Your balance : -- --- $</Text>
+            <Text style={ styles.h3}> Item name : {route.params.name}</Text>
+            <Text style={ styles.h3}> Item price : {route.params.prix} xpf</Text>
+            <Text style={ styles.h3}> Your balance : -- --- xpf</Text>
           </View>
           <View style={{flex: 4, alignItems:'center', marginTop:'20%', width:"100%"}} >
-            <Pressable style={styles.button} onPress={product} >
+            <Pressable style={styles.button} onPress={buyProduct} >
               <Text style={styles.textButton}> CONTACTLESS PAYMENT </Text>
             </Pressable>
             <Pressable style={styles.button} onPress={product} >

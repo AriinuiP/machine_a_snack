@@ -37,6 +37,7 @@ function AdminScreen(props : AdminScreenProps) {
 
     return (
         <SafeAreaView style={styles.container}>
+          
             <View style={styles.header}>
                 <Pressable style={styles.press} onPress={settings}>
                 <Image style={styles.image}
@@ -48,6 +49,7 @@ function AdminScreen(props : AdminScreenProps) {
                 Administration
             </Text> 
             </View>
+
             <ScrollView style={{flex:1, width:'100%'}}>
 
                 <View style={styles.subContainer} >
