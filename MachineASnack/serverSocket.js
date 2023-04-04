@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
-const Produit = require('./Queries/produits.js');
+const Produit = require('./Queries/schemaProduit.js');
 const socketIO = require('socket.io');
 
 const app = express();
@@ -26,7 +26,7 @@ io.on('connection', (socket) => {
   console.log('Un nouveau client est connecté.');
 
   socket.on('getProduits', () => {
-    Produit.find({})
+    Produit.find({ quantite : { $gt: 0 } })
       .then((produits) => {
         socket.emit('produits', produits);
       })
@@ -34,10 +34,19 @@ io.on('connection', (socket) => {
         console.log(err);
       });
   });
+
+  socket.on('buyProduit', (id) => {
+    Produit.findById(1)
+      .then((produit) => {
+        socket.emit('produit', produit);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
 });
 
-app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use("/produits", Produit);
