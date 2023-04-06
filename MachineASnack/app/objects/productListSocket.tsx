@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, Text, View, Alert, TouchableOpacity, Image, StyleSheet } from 'react-native';
-
-import Websocket from 'websocket';
+import { REACT_APP_BASE_URL} from '@env';
+import { io } from "socket.io-client";
 import colors from '../config/colors';
 
-const ProductList = ({props}) => {
+const ProductListSocket = ({props}) => {
   const [produits, setProduits] = useState([]);
   
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
-  console.log(BASE_URL);
+  const BASE_URL = REACT_APP_BASE_URL;
 
   useEffect(() => {
-    fetch(`${BASE_URL}/produits`)
-      .then(response => response.json())
-      .then(data => setProduits(data))
-      .catch(error => console.error(error));
-  }, []);
-
+    const socket = io(BASE_URL);
+    socket.emit('getProduits');
+    socket.on('produits', data => {
+      setProduits(data);
+      socket.disconnect();
+    });
+  },[]);
 
   const handleLongPress = () => {
     Alert.alert(
@@ -34,7 +34,6 @@ const ProductList = ({props}) => {
   }
 
   const renderItem = ({ item }) => (
-
     <View>
       <TouchableOpacity style={styles.product} onPress={() => handlePress(item)} delayLongPress={1000} onLongPress={handleLongPress}>
         <Image source={getImageByIndex(item._id)} resizeMode='cover'/>
@@ -56,7 +55,7 @@ const ProductList = ({props}) => {
   
 };
 
-export default ProductList;
+export default ProductListSocket;
 
 function getImageByIndex(index:number) {
   switch(index) {
@@ -102,7 +101,6 @@ const styles = StyleSheet.create({
       alignSelf: 'center',
       textAlign: 'center',
       color: colors.text_color,
-      fontFamily: 'Avenir',
       backgroundColor : colors.secondary,
       shadowColor: "black",
       shadowOpacity: 0.7,

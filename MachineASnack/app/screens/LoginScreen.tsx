@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, StatusBar, Image, Button, Pressable } from 'react-native';
-
 import colors from '../config/colors';
+import { io, Socket } from 'socket.io-client';
+
+
 
 interface LoginScreenProps {
   navigation:any;
+  route : {
+    params:{
+      socket : Socket;
+    }
+  }
 }
 
 
 function LoginScreen(props : LoginScreenProps) {
 
-  const home = () => props.navigation.navigate("Product");
-  const register = () => props.navigation.navigate("Register");
+  const [socket, setSocket ] = useState< Socket | null >(null);
+
+  useEffect(() => {
+    const socketInit = io(process.env.BASE_URL);
+    setSocket(socketInit);
+  },[]);
+
+  const home = () => props.navigation.navigate("Product", socket );
+  const register = () => props.navigation.navigate("Register", socket);
 
   return (
       <SafeAreaView style={styles.container}>
@@ -25,7 +39,6 @@ function LoginScreen(props : LoginScreenProps) {
                 <Text style={styles.textRegister}> REGISTER </Text>
               </Pressable>
               <Text onPress={home} style={styles.guest}> CONTINUE AS A GUEST </Text>
-              
           <StatusBar/>
       </SafeAreaView>
     );

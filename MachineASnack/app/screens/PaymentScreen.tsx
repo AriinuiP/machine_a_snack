@@ -2,6 +2,7 @@ import React from 'react';
 import mongoose from 'mongoose';
 import axios from 'axios';
 import { StyleSheet, Text, View, SafeAreaView, Pressable, Image, Alert } from 'react-native';
+import { io } from "socket.io-client";
 
 import colors from '../config/colors';
 
@@ -23,20 +24,36 @@ const PaymentScreen = ( {route, navigation}: PaymentScreenProps) => {
 const product = () => navigation.navigate("Product");
 
 const buyProduct = async () => {
-  const urlGet = `http://192.168.178.31:3000/produits/${route.params._id}`;
-
   try {
-    const response = await axios.get(urlGet);
-    console.log('Updated product:', response.data);
-    const item = response.data;
+    console.log("Produit en cours d'achat avec les Websockets ");
+    console.log(process.env.REACT_APP_BASE_URL);
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
+    const socket = io(BASE_URL);
+    socket.emit('buyProduit', route.params._id);
+    socket.on('produit', data => {
+      console.log(data);
+      socket.disconnect();
+      product();
+    });
+  }
+  catch {
+    console.log("Erreur lors des Websockets. Passage en requête HTTP");
 
-    const urlPut = `http://192.168.178.31:3000/produits/${route.params._id}`;
+    try {
+      const urlGet = `http://192.168.178.31:3000/produits/${route.params._id}`;
+      const response = await axios.get(urlGet);
+      console.log('Updated product:', response.data);
+      const item = response.data;
   
-    const putResponse = await axios.put(urlPut, item);
-    console.log('Updated product:', putResponse.data);
-    product();
-  } catch (error) {
-    console.error('Error updating product:', error.message);
+      const urlPut = `http://192.168.178.31:3000/produits/${route.params._id}`;
+    
+      const putResponse = await axios.put(urlPut, item);
+      console.log('Updated product:', putResponse.data);
+      product();
+    } catch (error) {
+      console.error('Error updating product:', error.message);
+    }
+    
   }
 }
 
@@ -53,6 +70,7 @@ const buyProduct = async () => {
             <Text style={ styles.h3}> Choose a payment method</Text>
             <Text style={ styles.h3}> Item name : {route.params.name}</Text>
             <Text style={ styles.h3}> Item price : {route.params.prix} xpf</Text>
+            <Text style={ styles.h3}> Item quantity : {route.params.quantite}</Text>
             <Text style={ styles.h3}> Your balance : -- --- xpf</Text>
           </View>
           <View style={{flex: 4, alignItems:'center', marginTop:'20%', width:"100%"}} >

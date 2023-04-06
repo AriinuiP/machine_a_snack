@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, View, Text, Image, Pressable } from 'react-native';
 import { SearchBar } from 'react-native-elements';
-import ProductList from '../objects/productList';
+import ProductListSocket from '../objects/productListSocket';
 
 
 import colors from '../config/colors';
@@ -36,7 +36,7 @@ function ProductScreen(props : ProductScreenProps) {
                 autoCorrect={false}
             />
             </View>
-            <ProductList props={props} />
+            <ProductListSocket props={props} />
             <View style={styles.footer}>
 
                 <Pressable onPress={login}>
